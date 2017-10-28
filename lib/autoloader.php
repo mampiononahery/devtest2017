@@ -89,6 +89,8 @@ class Autoloader {
 	 */
 	public function findClass($class) {
 		$class = trim($class, '\\');
+		
+	
 
 		$paths = array();
 		if ($this->useGlobalClassPath && array_key_exists($class, \OC::$CLASSPATH)) {
@@ -117,6 +119,8 @@ class Autoloader {
 			// can still be loaded, although the PSR-4 paths have not been loaded.
 			$paths[] = \OC::$SERVERROOT . '/tests/lib/TestCase.php';
 		}
+	
+	
 		return $paths;
 	}
 
