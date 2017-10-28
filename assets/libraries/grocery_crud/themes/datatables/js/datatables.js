@@ -20,7 +20,16 @@ var mColumns = [];
 
 $(document).ready(function() {
 
+
+	
+
+
+
 	$('table.groceryCrudTable thead tr th').each(function(index){
+		
+		
+		
+		
 		if(!$(this).hasClass('actions'))
 		{
 			mColumns[index] = index;
@@ -60,8 +69,15 @@ $(document).ready(function() {
 		oTableMapping[$(this).attr('id')] = index;
 
 		oTableArray[index] = loadDataTable(this);
+		init_Dynamique_colonne(this);
 	});
 
+	// 
+	
+	
+	
+	
+	
 	$(".groceryCrudTable tfoot input").keyup( function () {
 
 		chosen_table = datatables_get_chosen_table($(this).closest('.groceryCrudTable'));
@@ -78,7 +94,7 @@ $(document).ready(function() {
 
 			localStorage.setItem( 'datatables_search_'+ unique_hash ,'["' + search_values_array.join('","') + '"]');
 		}
-	} );
+	});
 
 	var search_values = localStorage.getItem('datatables_search_'+ unique_hash);
 
@@ -116,7 +132,19 @@ $(document).ready(function() {
 	$('th.actions>div .DataTables_sort_icon').remove();
 
 } );
-
+function init_Dynamique_colonne(table_crud)
+{
+	$('a.filtre_colonne').on( 'click', function (e){
+		e.preventDefault();
+		
+		var td = datatables_get_chosen_table($('.groceryCrudTable'));
+		var indCol = $(this).attr('data-column');
+		
+		
+		
+		
+	});
+}
 function loadListenersForDatatables() {
 
 	$('.refresh-data').click(function(){
@@ -132,16 +160,19 @@ function loadListenersForDatatables() {
 			success: function(my_output){
 				new_container.html(my_output);
 
-				loadDataTable(new_container.find('.groceryCrudTable'));
-
+				var table = loadDataTable(new_container.find('.groceryCrudTable'));
+				init_Dynamique_colonne(new_container.find('.groceryCrudTable'));
 				loadListenersForDatatables();
 			}
 		});
 	});
+	
+	
 }
 
 function loadDataTable(this_datatables) {
-	return $(this_datatables).dataTable({
+	console.log(this_datatables);
+	var table_crud =  $(this_datatables).dataTable({
 		"bJQueryUI": true,
 		"sPaginationType": "full_numbers",
 		"bStateSave": use_storage,
@@ -186,6 +217,10 @@ function loadDataTable(this_datatables) {
 	        "sSwfPath": base_url+"assets/grocery_crud/themes/datatables/extras/TableTools/media/swf/copy_csv_xls_pdf.swf"
 	    }
 	});
+	
+	
+	
+	return table_crud;
 }
 
 function datatables_get_chosen_table(table_as_object)
