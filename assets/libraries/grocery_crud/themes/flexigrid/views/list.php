@@ -30,6 +30,19 @@ if (!empty($list)) {
                         </th>
                     <?php } ?>
                 </tr>
+                <tr>
+                    <?php foreach($columns as $column){?>
+                        <th class="action_toogle">
+                            <input type="text" name="<?php echo $column->field_name; ?>" placeholder="<?php echo $this->l('list_search').' '.$column->display_as; ?>" class="get_action_toogle_search search_<?php echo $column->field_name; ?>"/>
+                            <i class="action_toogle_search fa fa-search" aria-hidden="true" style="color: blue;" onClick="action_toogle_search()"></i>
+                        </th>
+                    <?php }?>
+                    <?php if(!$unset_delete || !$unset_edit || !$unset_read || !empty($actions)){?>
+                        <th>
+                            
+                        </th>
+                    <?php }?>
+                </tr>
             </thead>		
             <tbody>
                 <?php foreach ($list as $num_row => $row) { ?>

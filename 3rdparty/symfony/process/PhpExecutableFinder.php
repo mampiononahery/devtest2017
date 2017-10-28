@@ -61,7 +61,7 @@ class PhpExecutableFinder
                 return $php;
             }
         }
-
+        var_dump("todofjdkfjkdjf");
         $dirs = array(PHP_BINDIR);
         if ('\\' === DIRECTORY_SEPARATOR) {
             $dirs[] = 'C:\xampp\php\\';

@@ -60,17 +60,17 @@ $(document).ready(function() {
 		oTableArray[index] = loadDataTable(this);
 	});
 
-	$(".groceryCrudTable tfoot input").keyup( function () {
+	$(".groceryCrudTable thead input").keyup( function () {
 
 		chosen_table = datatables_get_chosen_table($(this).closest('.groceryCrudTable'));
 
-		chosen_table.fnFilter( this.value, chosen_table.find("tfoot input").index(this) );
+		chosen_table.fnFilter( this.value, chosen_table.find("thead input").index(this) );
 
 		if(use_storage)
 		{
 			var search_values_array = [];
 
-			chosen_table.find("tfoot tr th").each(function(index,value){
+			chosen_table.find("thead tr th").each(function(index,value){
 				search_values_array[index] = $(this).children(':first').val();
 			});
 
@@ -85,7 +85,7 @@ $(document).ready(function() {
 		$.each($.parseJSON(search_values),function(num,val){
 			if(val !== '')
 			{
-				$(".groceryCrudTable tfoot tr th:eq("+num+")").children(':first').val(val);
+				$(".groceryCrudTable thead tr th:eq("+num+")").children(':first').val(val);
 			}
 		});
 	}
@@ -97,7 +97,7 @@ $(document).ready(function() {
 		chosen_table = datatables_get_chosen_table($(this).closest('.groceryCrudTable'));
 
 		chosen_table.fnFilterClear();
-		$(this).closest('.groceryCrudTable').find("tfoot tr th input").val("");
+		$(this).closest('.groceryCrudTable').find("thead tr th input").val("");
 	});
 
 	loadListenersForDatatables();

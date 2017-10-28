@@ -177,7 +177,12 @@ class Autoloader {
 		}
 
 		foreach ($pathsToRequire as $fullPath) {
+			
+			
+			
 			require_once $fullPath;
+			
+			
 		}
 
 		return false;

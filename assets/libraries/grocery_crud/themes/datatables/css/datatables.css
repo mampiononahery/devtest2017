@@ -283,3 +283,38 @@ table.dataTable thead tr th.actions
 	margin-left: 550px;
 	z-index: 1000;
 }
+/*CUSTOMIZED*/
+span.DataTables_sort_icon {
+    top: -15px !important;
+}
+i.fa.fa-search.action_toogle_search {
+    float: right;
+    position: relative;
+    left: 20px;
+    top: -30px;
+    width: 20px;
+    height: 30px;
+    background: transparent;
+    text-align: center;
+    padding-top: 10px;
+    z-index: 2;
+}
+thead {
+    background: #e6e6e6;
+}
+table.dataTable thead th {
+    border: none !important;
+    background: #e6e6e6;
+}
+.fa_custom {
+    background: transparent !important;
+    border: none;
+    font-size: 16px !important;
+    cursor: pointer;
+}
+.actions a {
+    background: transparent;
+    border: none;
+    margin-left: 2px;
+    margin-right: 2px;
+}

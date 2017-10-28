@@ -8,7 +8,8 @@ class Client extends Back {
     public function index() {
 
         $crud = new grocery_CRUD();
-        $crud->set_theme('datatables');
+        // $crud->set_theme('datatables');
+        $crud->set_theme('flexigrid');
         $crud->set_table('client');
         $crud->set_subject('client');
         $crud->where('user', $this->oc_auth->get_user_id());

@@ -538,6 +538,8 @@ class OC {
 			
 			self::initPaths();
 			
+			
+			
 			// setup 3rdparty autoloader
 			$vendorAutoLoad = OC::$SERVERROOT. '/3rdparty/autoload.php';
 			if (!file_exists($vendorAutoLoad)) {
@@ -546,6 +548,8 @@ class OC {
 			
 			
 			require_once $vendorAutoLoad;
+			
+			
 			
 			
 			
@@ -597,11 +601,20 @@ class OC {
 
 		// initialize intl fallback is necessary
 		\Patchwork\Utf8\Bootup::initIntl();
+		
+		
+		
+		
 		OC_Util::isSetLocaleWorking();
+		
+		
+		
 		if (!defined('PHPUNIT_RUN')) {
+			
 			OC\Log\ErrorHandler::setLogger(\OC::$server->getLogger());
 			$debug = \OC::$server->getConfig()->getSystemValue('debug', false);
 			OC\Log\ErrorHandler::register($debug);
+			
 		}
 
 		// register the stream wrappers
@@ -613,15 +626,7 @@ class OC {
 
 		\OC::$server->getEventLogger()->start('init_session', 'Initialize session');
 		$sessio  = array('session');
-	
-		
-		
-	
-	
-
 		OC_App::loadApps($sessio);
-		
-		
 		if (!self::$CLI) {
 			self::initSession();
 			
