@@ -26,6 +26,8 @@ $(document).ready(function() {
 			mColumns[index] = index;
 		}
 	});
+	
+	
 
 	if(!unset_export)
 	{
@@ -65,7 +67,7 @@ $(document).ready(function() {
 		chosen_table = datatables_get_chosen_table($(this).closest('.groceryCrudTable'));
 
 		chosen_table.fnFilter( this.value, chosen_table.find("tfoot input").index(this) );
-
+		console.log(chosen_table);
 		if(use_storage)
 		{
 			var search_values_array = [];
@@ -157,7 +159,7 @@ function loadDataTable(this_datatables) {
 		    "sZeroRecords":  list_no_items,
 		    "sInfo":         displaying_paging_string,
 		    "sInfoEmpty":   list_zero_entries,
-		    "sInfoFiltered": filtered_from_string,
+		   
 		    "sSearch":       search_string+":",
 		    "oPaginate": {
 		        "sFirst":    paging_first,

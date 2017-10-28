@@ -28,7 +28,8 @@ $(function(){
 
 	call_fancybox();
 	add_edit_button_listener();
-
+	
+	
 	$('.filtering_form').submit(function(){
 		var crud_page =  parseInt($(this).closest('.flexigrid').find('.crud_page').val(), 10);
 		var last_page = parseInt($(this).closest('.flexigrid').find('.last-page-number').html(), 10);

@@ -4446,6 +4446,7 @@ class Grocery_CRUD extends grocery_CRUD_States {
      * @return grocery_CRUD
      */
     public function set_table($table_name) {
+		
         if (!empty($table_name) && $this->basic_db_table === null) {
             $this->basic_db_table = $table_name;
         } elseif (!empty($table_name)) {
@@ -4454,7 +4455,7 @@ class Grocery_CRUD extends grocery_CRUD_States {
             throw new Exception('The table name cannot be empty.', 2);
             die();
         }
-
+		
         return $this;
     }
 

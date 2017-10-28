@@ -8,6 +8,8 @@
 			<th class='actions'><?php echo $this->l('list_actions'); ?></th>
 			<?php }?>
 		</tr>
+		
+		
 	</thead>
 	<tbody>
 		<?php foreach($list as $num_row => $row){ ?>
@@ -71,4 +73,5 @@
 			<?php }?>
 		</tr>
 	</tfoot>
+	
 </table>

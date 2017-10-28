@@ -9,11 +9,18 @@ class Client extends Back {
 
         $crud = new grocery_CRUD();
         $crud->set_theme('datatables');
+		 // $crud->set_theme('flexigrid');
         $crud->set_table('client');
         $crud->set_subject('client');
         $crud->where('user', $this->oc_auth->get_user_id());
-        $crud->add_action('Alerte   ', '', 'user/client/alerte', 'fa fa-bell-o');
+        //$crud->add_action('Alerte   ', '', 'user/client/alerte', 'fa fa-bell-o');
         $crud->columns('genre', 'nom', 'prenom', 'pays', 'adresse', 'tel_mobile', 'cp', 'ville', 'email');
+		
+		
+		
+		
+		
+
         $crud->field_type('user', 'hidden', $this->oc_auth->get_user_id());
         $crud->set_rules('tel_mobile', 'Num. portable', 'phone_number');
         $crud->required_fields('nom', 'prenom', 'tel_mobile');
@@ -71,7 +78,7 @@ class Client extends Back {
             $prd_rdv = $rdv_model->get_prd_rdv_by_client_id($client_id);
             $output->order_stories = $prd_rdv;
 			
-			var_dump($output->order_stories); exit();
+			
         }
 
         if (isset($this->_alertes) && !empty($this->_alertes)) {
