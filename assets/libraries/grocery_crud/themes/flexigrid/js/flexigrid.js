@@ -268,3 +268,17 @@ function displaying_and_pages(this_container)
 		this_container.find('.page-ends-to').html( crud_page*per_page );
 	}
 }
+
+function action_toogle_search() {
+	$('.action_toogle_search').each(function(){
+	$(this).click(function(){
+		var is_show = $(this).parent('.action_toogle').find('.get_action_toogle_search').css('display');
+		
+		if(is_show == 'none'){
+			$(this).parent('.action_toogle').find('.get_action_toogle_search').show();
+		}else{
+			$(this).parent('.action_toogle').find('.get_action_toogle_search').hide();
+        }
+	});
+});
+}

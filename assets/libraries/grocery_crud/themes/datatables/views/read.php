@@ -1,6 +1,7 @@
 <?php
 
 	$this->set_css($this->default_theme_path.'/datatables/css/datatables.css');
+	$this->set_css($this->default_theme_path.'/datatables/css/font-awesome.min.css');
 	$this->set_js_lib($this->default_theme_path.'/flexigrid/js/jquery.form.js');
 	$this->set_js_config($this->default_theme_path.'/datatables/js/datatables-edit.js');
 	$this->set_css($this->default_css_path.'/ui/simple/'.grocery_CRUD::JQUERY_UI_CSS);

@@ -460,9 +460,17 @@ div.colCopy {
 }
 .flexigrid table tr.hDiv th div.desc {
 	background:url(images/dn.png) no-repeat center top;
+	/*custom*/
+	width: 95% !important;
+    background-position-x: right !important;
+    background-position-y: center !important;
 }
 .flexigrid table tr.hDiv th div.asc {
 	background:url(images/up.png) no-repeat center top;
+	/*custom*/
+	width: 95% !important;
+    background-position-x: right !important;
+    background-position-y: center !important;
 }
 .flexigrid div.bDiv td {
 	border-bottom:1px solid #fff;
@@ -1452,4 +1460,17 @@ input[type="submit"].btn.btn-mini {
 	content: "Loading...";
 	margin-left: 550px;
 	z-index: 1000;
+}
+/*custom*/
+.get_action_toogle_search {
+    display: none;
+    width: 80%;
+}
+i.action_toogle_search {
+    cursor: pointer;
+    font-size: 18px;
+    display: inline-block;
+    float: right;
+    margin-right: 4px;
+    margin-top: 4px;
 }
