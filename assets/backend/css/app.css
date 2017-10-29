@@ -90,3 +90,32 @@ a.crud-action:hover {
 #ajax_list .clickable-row td {
     cursor: pointer;
 }
+
+/*CUSTOME*/
+.calendar_filter {
+    margin-left: 220px;
+}
+.calendar_filter select {
+    padding: 4px 15px;
+    height: 31px;
+    border-radius: 5px;
+    font-size: 12px;
+}
+span.alert_calendar {
+    float: right;
+    margin-right: 5px;
+    margin-top: 5px;
+    color: #000000;
+}
+ul.option_alert {
+    margin-left: 0 !important;
+    list-style-type: none;
+    display: inline-block;
+}
+.option_alert li:first-child {
+    line-height: 65px;
+    margin-right: 20px;
+}
+.option_alert li {
+    float: left;
+}

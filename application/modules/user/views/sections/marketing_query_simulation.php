@@ -15,6 +15,7 @@
             </div>
             <div class="clear"></div>
         </div>
+        
         <div id="ajax_list" class="ajax_list">
             <div class="bDiv">
                 <?php $total_col = 6; ?>

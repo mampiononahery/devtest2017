@@ -8,6 +8,16 @@
         <div class="dhx_cal_next_button">&nbsp;</div>
         <div class="dhx_cal_today_button"></div>
 
+        <div class="calendar_filter">
+            <select>
+                <option>Salle 1</option>
+                <option>Salle 2</option>
+                <option>Salle 3</option>
+                <option>Salle 4</option>
+                <option>Salle 5</option>
+            </select>
+        </div>
+
         <div class="dhx_cal_date"></div>
         <div class="dhx_cal_tab" name="day_tab" style="right:204px;"></div>
         <div class="dhx_cal_tab" name="week_tab" style="right:140px;"></div>
@@ -532,6 +542,7 @@
             if (ev.clt === "1") {
                 html += '<img class="rdv_not_honored" src="<?php echo site_url('assets/backend/design/not_honored.png') ?>" title="Client absent au RDV" alt="Client absent au RDV"/>';
             }
+            html += "<span class='alert_calendar'><i class='fa fa-exclamation-triangle' aria-hidden='true'></i></span>";
             html += "</div>";
 
             // resize section
@@ -542,7 +553,7 @@
         };
 
         scheduler.templates.tooltip_text = function (start, end, event) {
-            return "<b>Commentaire:</b> " + event.text + "<br/><b>Heure de début:</b> " +
+            return "<b>Commentaire:</b> " + event.text + "<br/><b>Procution:</b>"+event.production+"<br/><b>Heure de début:</b> " +
                     format(start) + "<br/><b>Heure de fin:</b> " + format(end);
         };
 

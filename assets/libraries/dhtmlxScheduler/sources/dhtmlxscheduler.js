@@ -5249,6 +5249,7 @@ scheduler._render_v_bar = function (ev, x, y, w, h, style, contentA, contentB, b
 	var d = document.createElement("DIV");
 	var id = ev.id;
 	var cs = (bottom) ? "dhx_cal_event dhx_cal_select_menu" : "dhx_cal_event";
+    var h = 22;
 
 	var cse = scheduler.templates.event_class(ev.start_date, ev.end_date, ev);
 	if (cse) cs = cs + " " + cse;

@@ -24,6 +24,19 @@
         <li class="breadcrumb-item"><a href="<?php echo site_url('user/dashboard') ?>">Dashboard</a></li>
         <li class="breadcrumb-item active">Alertes</li>
     </ol>
+    <ul class="option_alert">
+        <li>N'afficher que les alerts è traiter</li>
+        <li>
+            <div class="switch">
+                <input class="switch-input" id="is_true" type="radio" value="1"/>
+                <label for="is_true" class="switch-label switch-label-off">oui</label>
+                <input class="switch-input" id="is_false" type="radio" value="0"/>
+                <label for="is_false" class="switch-label switch-label-on">non</label>
+                <span class="switch-selection"></span>
+            </div>
+        </li>
+    </ul>
+    
 <?php endif; ?>
 <?php echo isset($output) ? $output : ''; ?>
 <?php if (isset($state) && $state == "read"): ?>
