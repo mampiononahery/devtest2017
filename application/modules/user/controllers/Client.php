@@ -5,7 +5,117 @@ require_once(APPPATH . '/controllers/Back.php');
 
 class Client extends Back {
 
-    public function index() {
+   
+	public function indexdd()
+	{
+		
+		
+	}
+	public function _example_output($output = null)
+	{
+		$this->load->view('example.php',$output);
+	}
+	public function test_function()
+	{
+	
+			$crud = new grocery_CRUD();
+            $crud->set_theme('flexigrid');
+            $crud->set_table('alerte');
+            $crud->set_subject('Alerte');
+            $crud->columns('dt_real', 'note', 'acquitted');
+            $crud->add_action('Voir Alerte', '', 'user/alerte/index/read', 'read-icon');
+            $crud->add_action('Acquitter', '', 'user/alerte/close_alerte', 'fa fa-check-square-o');
+
+           
+            $crud->unset_fields('email_send');
+			
+			$crud->set_crud_url_path(site_url("user/".strtolower(__CLASS__."/".__FUNCTION__)),site_url("user/".strtolower(__CLASS__."/multigrids")));
+		
+		
+			$output = $crud->render();
+			/*if($crud->getState() != 'list') {
+				$this->_example_output($output);
+			} else {
+				return $output;
+			}*/
+
+            return $output;
+		
+	}
+	
+	
+	
+	
+	
+	
+	
+	
+	public function multigrids()
+	{
+		
+		
+		$output1 = $this->test_function();
+		
+		$output2 = $this->test_function2(); 
+		
+		
+		
+		$js_files = $output1->js_files + $output2->js_files ;
+		$css_files = $output1->css_files + $output2->css_files ;
+		$output = "<h1>List 1</h1>".$output1->output."<h1>List 2</h1>".$output2->output;
+		
+		
+		
+		$data = (object)array(
+				'js_files' => $js_files,
+				'css_files' => $css_files,
+				'output'	=> $output
+			);
+			
+		$layout = new Layout();
+        $layout->set_title("Clients");
+		
+		
+        $layout->view("sections/client", $data, 'user_page');
+		
+		
+	}
+
+	public function test_function2()
+	{
+		
+		$crud = new grocery_CRUD();
+
+        //$crud->set_theme('datatables');
+		  $crud->set_theme('flexigrid');
+
+        $crud->set_table('client');
+        $crud->set_subject('client');
+        $crud->where('user', $this->oc_auth->get_user_id());
+        $crud->add_action('Alerte   ', '', 'user/client/alerte', 'fa fa-bell-o');
+        $crud->columns('genre', 'nom', 'prenom', 'pays', 'adresse', 'tel_mobile', 'cp', 'ville', 'email');
+        $crud->field_type('user', 'hidden', $this->oc_auth->get_user_id());
+        $crud->set_rules('tel_mobile', 'Num. portable', 'phone_number');
+        $crud->required_fields('nom', 'prenom', 'tel_mobile');
+		$crud->set_crud_url_path(site_url("user/".strtolower(__CLASS__."/".__FUNCTION__)),site_url("user/".strtolower(__CLASS__."/multigrids")));
+		
+		$output = $crud->render();
+		if($crud->getState() != 'list') {
+			$layout = new Layout();
+			$layout->set_title("Clients");
+		
+		
+			$layout->view("sections/client", $output, 'user_page');
+		
+		} else {
+			return $output;
+		}
+
+		return $output;
+		
+		
+	}
+   public function index() {
 
         $crud = new grocery_CRUD();
 

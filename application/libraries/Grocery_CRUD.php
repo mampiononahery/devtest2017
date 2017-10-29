@@ -4478,6 +4478,8 @@ class Grocery_CRUD extends grocery_CRUD_States {
      */
     public function set_crud_url_path($crud_url_path, $list_url_path = null) {
         $this->crud_url_path = $crud_url_path;
+		
+	
 
         //If the list_url_path is empty so we are guessing that the list_url_path
         //will be the same with crud_url_path

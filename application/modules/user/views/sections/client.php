@@ -32,6 +32,12 @@
         <li class="breadcrumb-item"><a href="<?php echo site_url('user/client') ?>">Mes clients</a></li>
         <li class="breadcrumb-item active">Fiche client <strong><?php echo ucwords($client->nom . ' ' . $client->prenom) ?></strong></li>
     </ol>
+	
+	
+	
+	
+	<?php echo anchor('user/object/index/' . $client->client_id); ?>
+	
     <?php if (isset($order_stories)): ?>
         <div class="flexigrid">
             <div class="col-md-12">
