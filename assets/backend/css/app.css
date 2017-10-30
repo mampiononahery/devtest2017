@@ -119,3 +119,6 @@ ul.option_alert {
 .option_alert li {
     float: left;
 }
+.flexigrid {
+    margin-top: 20px !important;
+}

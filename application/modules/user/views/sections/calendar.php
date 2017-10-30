@@ -553,7 +553,7 @@
         };
 
         scheduler.templates.tooltip_text = function (start, end, event) {
-            return "<b>Commentaire:</b> " + event.text + "<br/><b>Procution:</b>"+event.production+"<br/><b>Heure de début:</b> " +
+            return "<b>Commentaire:</b> " + event.text + "<br/><b>Production:</b>"+event.production+"<br/><b>Heure de début:</b> " +
                     format(start) + "<br/><b>Heure de fin:</b> " + format(end);
         };
 

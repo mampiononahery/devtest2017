@@ -566,6 +566,7 @@ div.colCopy {
 	overflow:hidden;
 	white-space:nowrap;
 	position:relative;
+	min-height: 40px;
 }
 .flexigrid div.pDiv div.pDiv2 {
 	margin:3px;
@@ -592,9 +593,9 @@ div.pGroup {
 .flexigrid div.pDiv input{
 	top:-5px;
 }
-.flexigrid div.pDiv select {
+/*.flexigrid div.pDiv select {
 	top:-3px;
-}
+}*/
 .flexigrid div.pDiv div.pButton {
 	float:left;
 	width:22px;

@@ -144,5 +144,21 @@
 <?php endif; ?>
 <?php echo isset($output) ? $output : ''; ?>
 <?php if (isset($client)): ?>
-    <iframe width="100%" height="500px" src="<?php echo site_url('user/object/index/' . $client->client_id) ?>"></iframe>
+    <iframe id="myiframe" width="100%" frameborder='0' scrolling="no"src="<?php echo site_url('user/object/index/' . $client->client_id) ?>"></iframe>
+    <!-- <div id="content_type"></div> -->
 <?php endif; ?>
+
+
+<script type="text/javascript">
+    // $(document).ready(function(){
+    //     var url = '<?php echo site_url('user/object/index/' . $client->client_id) ?>';
+    //     $.get( url, function( data ) {
+    //       $( "#content_type" ).html( data );
+    //     });
+        function alertsize(pixels){
+            pixels+=32;
+            document.getElementById('myiframe').style.height=pixels+"px";
+        }
+    // });
+    
+</script>

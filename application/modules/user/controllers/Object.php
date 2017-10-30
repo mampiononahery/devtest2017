@@ -139,7 +139,7 @@ class Object extends Back {
                     } else {
                         $value = '';
                     }
-                    $input .= '<div><label for="field_' . $item->field_id . '">' . $item->label . '</label><textarea id="field_' . $item->field_id . '" name="field_' . $item->field_id . '" class="texteditor">' . $value . '</textarea></div>';
+                    $input .= '<div style="overflow: hidden;min-height: 360px;"><label for="field_' . $item->field_id . '">' . $item->label . '</label><textarea id="field_' . $item->field_id . '" name="field_' . $item->field_id . '" class="texteditor">' . $value . '</textarea></div>';
                 } else {
                     if ((isset($dynamic_fields[$item->field_id]))) {
                         $value = $dynamic_fields[$item->field_id];
