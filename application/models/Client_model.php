@@ -6,10 +6,23 @@ class Client_model extends CI_Model {
         parent::__construct();
     }
 
-    public function get_clients_by_uid($uid) {
+    public function get_clients_by_uid($uid,$order_by = array(),$where = array()) {
         $this->db->select("*")
                 ->from('client')
                 ->where('user = "' . $uid . '"');
+		if(sizeof($where) && !empty($where['search_field']) && $where['search_field']!='')
+		{
+			$this->db->where($where['search_field']." LIKE '%".$where['search_text']."%'");
+
+		}
+		if(sizeof($order_by))
+		{
+			if($order_by[0]!='' && $order_by[1]!='')
+			{
+				$this->db->order_by($order_by[0],$order_by[1]);
+			}
+		}
+		
         $db = $this->db->get();
         return $db->result();
     }

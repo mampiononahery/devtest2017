@@ -5,45 +5,223 @@ require_once(APPPATH . '/controllers/Back.php');
 
 class Client extends Back {
 
-   
-	public function indexdd()
-	{
-		
-		
-	}
-	public function _example_output($output = null)
-	{
-		$this->load->view('example.php',$output);
-	}
-	public function test_function()
-	{
+	/**
+	* GRID CLIENT
+	*
+	*/
 	
-			$crud = new grocery_CRUD();
-            $crud->set_theme('flexigrid');
-            $crud->set_table('alerte');
-            $crud->set_subject('Alerte');
-            $crud->columns('dt_real', 'note', 'acquitted');
-            $crud->add_action('Voir Alerte', '', 'user/alerte/index/read', 'read-icon');
-            $crud->add_action('Acquitter', '', 'user/alerte/close_alerte', 'fa fa-check-square-o');
+	public function list_client()
+	{
+		$crud = new grocery_CRUD();
+        $crud->set_theme('datatables');
+		$crud->set_theme('flexigrid');
+        $crud->set_table('client');
+        $crud->set_subject('client');
+        $crud->where('user', $this->oc_auth->get_user_id());
+        $crud->add_action('Alerte   ', '', 'user/client/alerte', 'fa fa-bell-o');
+        $crud->columns('genre', 'nom', 'prenom', 'pays', 'adresse', 'tel_mobile', 'cp', 'ville', 'email');
+        $crud->field_type('user', 'hidden', $this->oc_auth->get_user_id());
+        $crud->set_rules('tel_mobile', 'Num. portable', 'phone_number');
+        $crud->required_fields('nom', 'prenom', 'tel_mobile');
+        $user_model = new User_model();
+        $logged_user = $user_model->get_user_by_uid($this->oc_auth->get_user_id());
+		/**
+		*
+		* Desactiver pour le moment 
+		* Non user 
+		*
+		*/
+		if (!$logged_user->use_excel) {
+           // $crud->unset_export();
+        }
+		$state = $crud->getState();
+        $fields = array('user', 'genre', 'nom', 'prenom', 'email', 'dt_nais', 'pays', 'adresse', 'cp', 'ville', 'tel_fixe', 'tel_mobile', 'sms_versaire', 'sms_object_versaire','dynamic_fields');
+		$crud->callback_field('dynamic_fields', array($this, 'callback_load_dynamic_fields'));
+        $crud->callback_read_field('dynamic_fields', array($this, 'callback_load_dynamic_fields'));
+        $crud->callback_before_insert(array($this, 'callback_format_dynamic_fields'));
+        $crud->callback_before_update(array($this, 'callback_format_dynamic_fields'));
+        $crud->callback_column('nom', array($this, 'callback_format_firstname_fields'));
+        $crud->callback_column('prenom', array($this, 'callback_format_lastname_fields'));
+        $crud->fields($fields);
+        $field_labels = array(
+            'user' => 'Nom',
+            'genre' => 'Titre',
+            'prenom' => 'Pr&eacute;nom',
+            'cp' => 'Code postal',
+            'dt_nais' => 'Date de naissance',
+            'tel_fixe' => 'T&eacute;l&eacute;phone fixe',
+            'tel_mobile' => 'Num. portable',
+            'email' => 'Adresse email',
+            'sms_versaire' => 'Envoi de SMS marketing &agrave; la date anniversaire du clien ',
+            'sms_object_versaire' => 'Envoi de SMS marketing &agrave; la date anniversaire du chien ',
+            'dynamic_fields' => 'Informations suppl&eacute;mentaires'
+        );
 
-           
-            $crud->unset_fields('email_send');
+        $crud->display_as($field_labels);
+		
+		$crud->set_crud_url_path(site_url("user/".strtolower(__CLASS__."/index")),site_url("user/".strtolower(__CLASS__."/index")));
+		$output = $crud->render();
+	
+		
+		return $output;
+	
+	
+	
+	
+	}
+	public function test_ajax()
+	{
+		
+		$client_id = 6;
+		$crud = new grocery_CRUD();
+		$crud->set_theme('flexigrid');
+		$crud->set_table('client_object_entities');
+		$crud->set_subject('Chien');
+		$crud->where('object_id = 1 AND client_id = ' . $client_id); // 1 => entité chien
+		$crud->columns('nom_chien'); // 1 => entité chien
+		$crud->display_as(array(
+			'nom_chien' => 'Nom du chien',
+			'client_id' => 'Client',
+			'object_id' => 'Chien',
+			'dynamic_fields' => 'Informations'
+		));
+		$crud->field_type('object_id', 'hidden', 1);
+		$crud->field_type('client_id', 'hidden', $client_id);
+
+		$crud->callback_column('nom_chien', array($this, 'callbak_entity_title'));
+		$crud->callback_field('dynamic_fields', array($this, 'callback_load_dynamic_fields'));
+		$crud->callback_read_field('dynamic_fields', array($this, 'callback_load_dynamic_fields'));
+		$crud->callback_before_insert(array($this, 'callback_format_dynamic_fields'));
+		$crud->callback_before_update(array($this, 'callback_format_dynamic_fields'));
+		$crud->set_crud_url_path(site_url("user/".strtolower(__CLASS__."/index")),site_url("user/".strtolower(__CLASS__."/index")));
+		$user_model = new User_model();
+		$logged_user = $user_model->get_user_by_uid($this->oc_auth->get_user_id());
+		if (!$logged_user->use_excel) {
+			$crud->unset_export();
+		}
+		$output = $crud->render(1);
+		
+		$layout = new Layout();
+        $layout->set_title("Clients");	
+        $html_crud = $layout->view_html("sections/test_view", $output, 'user_page');
+		
+		echo $html_crud;
+		
+		
+		
+	}
+	
+	public function historique_achat()
+	{
+		$client_id = (int) $this->uri->segment(5);
+		$crud = new grocery_CRUD();
+		$crud->set_theme('flexigrid');
+		$crud->set_table('rdv');
+		$crud->set_subject('rdv');
+		
+		
+		/**
+		*
+		* UNSET ACTION
+		*/
+		$crud->unset_add();
+		$crud->unset_edit();
+		$crud->unset_read();
+		
+		$crud->where('id_client = ' . $client_id); // 1 => entité chien
+		$crud->columns('prod_type','prod_libelle','prod_pu','qte','prod_remise','total','date_commande'); // 1 => entité chien
+		
+		
+		
+		
+		 	//Quantité 	Remise 	Total 	Date commande
+		$crud->display_as(array(
+			'prod_type'=>'Type produit',
+			'nom_client' => 'Nom client',
+			'note_prd' => 'Nom produit',
+			'prod_libelle'=>'Libellé',
+			'prod_pu'=>'Prix unitaire',
+			'qte'=>'Quantité',
+			'prod_remise'=>'Remise',
+			'total'=>'Total',
+			'date_commande'=>'Date commande'
 			
-			$crud->set_crud_url_path(site_url("user/".strtolower(__CLASS__."/".__FUNCTION__)),site_url("user/".strtolower(__CLASS__."/multigrids")));
+		));
+		$crud->callback_column('prod_type', array($this, 'callbak_prod_type'));
+		$crud->callback_column('prod_libelle', array($this, 'callbak_prod_libelle'));
+		$crud->callback_column('prod_pu', array($this, 'callbak_prod_pu'));
+		$crud->callback_column('qte', array($this, 'callbak_qte'));
+		$crud->callback_column('prod_remise', array($this, 'callbak_prod_remise'));
+		$crud->callback_column('total', array($this, 'callbak_total'));
+		$crud->callback_column('date_commande', array($this, 'callbak_date_commande'));
+		
+		//$crud->fields('customerName','contactLastName','phone','city','country','creditLimit');
 		
 		
-			$output = $crud->render();
-			/*if($crud->getState() != 'list') {
-				$this->_example_output($output);
-			} else {
-				return $output;
-			}*/
+		$crud->set_crud_url_path(site_url("user/".strtolower(__CLASS__."/index")),site_url("user/".strtolower(__CLASS__."/index")));
+		$user_model = new User_model();
+		$logged_user = $user_model->get_user_by_uid($this->oc_auth->get_user_id());
+		if (!$logged_user->use_excel) {
+			//$crud->unset_export();
+		}
+		$output = $crud->render(1);
+		
+		
+		return $output;
+	}
+	
+	public function index()
+	{
+		$output1 = $this->list_client();
+		$client_id = (int) $this->uri->segment(5);
+		
+		
+		$output = "";
+		$css_files = array();
+		$js_files = array();
+		
+        if ($client_id > 0)
+		{
+			$out_put = $this->historique_achat();
+			$css_files = $out_put->css_files;
+			$js_files =$out_put->js_files;
+			$output = "<div class='stats-title'><h2>Historique d'Achat</h2></div>".$out_put->output;
+		}
+		$js_files =$js_files+  $output1->js_files ;
+		$css_files = $css_files+$output1->css_files ;
+		$output = $output." <div>".$output1->output."</div>";
+		$data = (object)array(
+				'js_files' => $js_files,
+				'css_files' => $css_files,
+				'output'	=> $output
+		);
+			
+		if ($client_id > 0){
+			$this->load->model('Client_model');
+            $client_model = new Client_model();
+            $data->client = $client_model->get_client_by_id($client_id);
+            $this->load->helper('date');
+		}
+		$layout = new Layout();
+        $layout->set_title("Clients");	
+        $layout->view("sections/client", $data, 'user_page');
 
-            return $output;
-		
 	}
 	
 	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+
 	
 	
 	
@@ -74,9 +252,7 @@ class Client extends Back {
 			);
 			
 		$layout = new Layout();
-        $layout->set_title("Clients");
-		
-		
+        $layout->set_title("Clients");	
         $layout->view("sections/client", $data, 'user_page');
 		
 		
@@ -116,12 +292,11 @@ class Client extends Back {
 		
 		
 	}
-   public function index() {
+   public function index2() {
 
         $crud = new grocery_CRUD();
-
-        //$crud->set_theme('datatables');
-		  $crud->set_theme('flexigrid');
+        $crud->set_theme('datatables');
+		$crud->set_theme('flexigrid');
 
         $crud->set_table('client');
         $crud->set_subject('client');
@@ -135,9 +310,9 @@ class Client extends Back {
         $user_model = new User_model();
         $logged_user = $user_model->get_user_by_uid($this->oc_auth->get_user_id());
         if (!$logged_user->use_excel) {
-            $crud->unset_export();
+           // $crud->unset_export();
         }
-
+		//$crud->unset_export();
         $state = $crud->getState();
         $fields = array('user', 'genre', 'nom', 'prenom', 'email', 'dt_nais', 'pays', 'adresse', 'cp', 'ville', 'tel_fixe', 'tel_mobile', 'sms_versaire', 'sms_object_versaire','dynamic_fields');
 
@@ -587,7 +762,12 @@ class Client extends Back {
     function export_all() {
         $data = new stdClass();
         $data->columns = $this->_get_export_columns();
-        $data->list = $this->_get_export_list($data->columns);
+		$order_by = $this->input->post("order_by");
+		$where = array(
+			"search_field"=>$this->input->post("search_field"),
+			"search_text"=>$this->input->post("search_text")
+		);
+        $data->list = $this->_get_export_list($data->columns,$order_by,$where);
         $this->_export_data($data);
     }
 
@@ -653,18 +833,23 @@ class Client extends Back {
         return $columns;
     }
 
-    protected function _get_export_list($columns) {
+    protected function _get_export_list($columns,$order_by=array(),$where=array()) {
         $this->load->model('Client_model');
         $client_model = new Client_model();
         $lists = array();
 
-        $clients = $client_model->get_clients_by_uid($this->oc_auth->get_user_id());
+        $clients = $client_model->get_clients_by_uid($this->oc_auth->get_user_id(),$order_by,$where);
         foreach ($clients AS $item) {
             if ($item->dynamic_fields && !empty($item->dynamic_fields)) {
                 $dynamic_fields = json_decode($item->dynamic_fields, true);
-                foreach ($dynamic_fields AS $key => $value) {
-                    $item->$key = $this->_get_client_field_value($key, $value);
-                }
+				
+				
+				if(!empty($dynamic_fields) && isset($dynamic_fields)){
+				
+					foreach ($dynamic_fields AS $key => $value) {
+						$item->$key = $this->_get_client_field_value($key, $value);
+					}
+				}
             }
             unset($item->dynamic_fields);
             $lists[] = $item;

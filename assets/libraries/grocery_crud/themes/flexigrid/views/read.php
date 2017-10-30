@@ -57,6 +57,16 @@ $this->set_js_lib($this->default_javascript_path . '/jquery_plugins/config/jquer
             <div id='report-error' class='report-div error'></div>
             <div id='report-success' class='report-div success'></div>
         </div>
+		<div>
+		
+		
+		
+		
+			
+		
+		
+		</div>
+		
         <div class="pDiv">
             <div class='form-button-box'>
                 <input type='button' value='<?php echo $this->l('form_back_to_list'); ?>' class="btn btn-large back-to-list" id="cancel-button" />

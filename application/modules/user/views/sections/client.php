@@ -1,4 +1,12 @@
 <script type="text/javascript">
+
+
+
+
+
+
+
+
     $(document).ready(function () {
         var cities = new Array();
         if ($("input#field-cp").length) {
@@ -24,8 +32,13 @@
         $('input[type="text"], textarea').attr('readonly', 'readonly');
         $('input[type="radio"], select').attr('disabled', 'disabled');
         <?php endif; ?>
+		
     });
 </script>
+
+
+
+
 <?php if (isset($client)): ?>
     <ol class="breadcrumb">
         <li class="breadcrumb-item"><a href="<?php echo site_url('user/dashboard') ?>">Dashboard</a></li>
@@ -36,7 +49,6 @@
 	
 	
 	
-	<?php echo anchor('user/object/index/' . $client->client_id); ?>
 	
     <?php if (isset($order_stories)): ?>
         <div class="flexigrid">

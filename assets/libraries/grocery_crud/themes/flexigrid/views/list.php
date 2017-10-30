@@ -11,6 +11,9 @@ $column_width = (int) (80 / count($columns));
 
 if (!empty($list)) {
     ?><div class="bDiv" >
+	
+	<input type='hidden' id='namesearch'  name='namesearch' />
+	<input type='hidden' id='namesearchval'  name='namesearchval' />
         <table cellspacing="0" cellpadding="0" border="0" id="flex1">
             <thead>
                 <tr class='hDiv'>
@@ -33,7 +36,7 @@ if (!empty($list)) {
                 <tr>
                     <?php foreach($columns as $column){?>
                         <th class="action_toogle">
-                            <input type="text" name="<?php echo $column->field_name; ?>" placeholder="<?php echo $this->l('list_search').' '.$column->display_as; ?>" class="get_action_toogle_search search_<?php echo $column->field_name; ?>"/>
+                            <input type="text" name="<?php echo $column->field_name; ?>" placeholder="<?php echo $this->l('list_search').' '.$column->display_as; ?>" class="get_action_toogle_search seach_flexigrid search_<?php echo $column->field_name; ?>"/>
                             <i class="action_toogle_search fa fa-search" aria-hidden="true" style="color: blue;" onClick="action_toogle_search()"></i>
                         </th>
                     <?php }?>

@@ -1582,6 +1582,12 @@ class grocery_CRUD_Layout extends grocery_CRUD_Model_Driver {
         $data->is_ajax = $this->_is_ajax();
 
         $this->_theme_view('edit.php', $data);
+		
+		
+		
+		
+		
+		
         $this->_inline_js("var js_date_format = '" . $this->js_date_format . "';");
 
         $this->_get_ajax_results();
@@ -3865,7 +3871,7 @@ class Grocery_CRUD extends grocery_CRUD_States {
      *
      * @access	public
      */
-    public function render() {
+    public function render($state = null) {
         $this->pre_render();
 
         if ($this->state_code != 0) {
@@ -3874,7 +3880,10 @@ class Grocery_CRUD extends grocery_CRUD_States {
             throw new Exception('The state is unknown , I don\'t know what I will do with your data!', 4);
             die();
         }
-
+		if($state){
+		
+			$this->state_code = 1;
+		}
         switch ($this->state_code) {
             case 15://success
             case 1://list

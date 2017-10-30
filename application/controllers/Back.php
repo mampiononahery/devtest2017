@@ -214,5 +214,126 @@ class Back extends MX_Controller {
             }
         }
     }
+	/**
+	*
+	* Calback attentite
+	*/
+	
+	function callbak_entity_title($value, $row) {
+        $this->load->model('Client_model');
+        $client_model = new Client_model();
+
+        $object = $client_model->get_object_by_id($row->entity_id);
+        if (!empty($object) && isset($object->dynamic_fields) && !empty($object->dynamic_fields)) {
+            $dynamic_fields = json_decode($object->dynamic_fields, true);
+            return !empty($dynamic_fields[1]) ? $dynamic_fields[1] : 'Non défini';
+        } else {
+            return 'Non défini';
+        }
+    }
+	
+	function callbak_prod_libelle($value,$row)
+	{
+	
+		$this->load->model('Rdv_model');
+		$rdv = new Rdv_model();
+	
+		$rdv_prod = $rdv->get_prd_rdv_by_rdv_id($row->rdv_id);
+		$libelle_prod = !empty($rdv_prod[0]->prod_libelle) ? $rdv_prod[0]->prod_libelle : ' - ';
+		return $libelle_prod;
+	
+	
+	}
+	function callbak_prod_type($value,$row)
+	{
+	
+		$this->load->model('Rdv_model');
+		$rdv = new Rdv_model();
+	
+		$rdv_prod = $rdv->get_prd_rdv_by_rdv_id($row->rdv_id);
+		$libelle_prod = !empty($rdv_prod[0]->prod_type) ? $rdv_prod[0]->prod_type : ' - ';
+		return $libelle_prod;
+	
+	
+	}
+	function callbak_prod_pu($value,$row)
+	{
+	
+		$this->load->model('Rdv_model');
+		$rdv = new Rdv_model();
+	
+		$rdv_prod = $rdv->get_prd_rdv_by_rdv_id($row->rdv_id);
+		$libelle_prod = !empty($rdv_prod[0]->prod_pu) ? $rdv_prod[0]->prod_pu ." &euro;": '0';
+		return $libelle_prod;
+	
+	
+	}
+	
+	function callbak_qte($value,$row)
+	{
+	
+		$this->load->model('Rdv_model');
+		$rdv = new Rdv_model();
+	
+		$rdv_prod = $rdv->get_prd_rdv_by_rdv_id($row->rdv_id);
+		$libelle_prod = !empty($rdv_prod[0]->qte) ? $rdv_prod[0]->qte : ' ';
+		return $libelle_prod;
+	
+	
+	}
+	function callbak_prod_remise($value,$row)
+	{
+	
+		$this->load->model('Rdv_model');
+		$rdv = new Rdv_model();
+	
+		$rdv_prod = $rdv->get_prd_rdv_by_rdv_id($row->rdv_id);
+		$libelle_prod = !empty($rdv_prod[0]->prod_remise) ? $rdv_prod[0]->prod_remise ." %" : ' 0 %';
+		return $libelle_prod;
+	
+	
+	}
+	
+	function callbak_total($value,$row)
+	{
+	
+		$this->load->model('Rdv_model');
+		$rdv = new Rdv_model();
+		$rdv_prod = $rdv->get_prd_rdv_by_rdv_id($row->rdv_id);
+		$total = 0;
+		if(!empty($rdv_prod[0])){
+		
+			$total = ($rdv_prod[0]->prod_pu*$rdv_prod[0]->qte * (1 - $rdv_prod[0]->prod_remise /100)) ;
+		}
+		
+		return $total;
+		
+		
+		
+	
+	
+	}
+	
+	function callbak_date_commande($value,$row)
+	{
+	
+		$this->load->model('Rdv_model');
+		$rdv = new Rdv_model();
+		$rdv_prod = $rdv->get_prd_rdv_by_rdv_id($row->rdv_id);
+		$date_start = "";
+		if(!empty($rdv_prod[0]->date_start_rendevous)){
+			$date_start = $rdv_prod[0]->date_start_rendevous;
+			
+		}
+		
+		return $date_start;
+		
+		
+		
+	
+	
+	}
+	
+	
 
 }

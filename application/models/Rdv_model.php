@@ -15,7 +15,7 @@ class Rdv_model extends CI_Model {
     }
 
     public function get_prd_rdv_by_rdv_id($rdv_id) {
-        $this->db->select("*")
+        $this->db->select("*,DATE_FORMAT(dt_start,'%d/%m/%Y') as date_start_rendevous")
                 ->from('prd_rdv')
                 ->join('production', 'production.prod_id = prd_rdv.id_prd')
                 ->join('rdv', 'prd_rdv.id_rdv = rdv.rdv_id')
