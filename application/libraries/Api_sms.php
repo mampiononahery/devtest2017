@@ -55,6 +55,8 @@ class Api_sms {
         $smsrequest["keyid"] = $this->get_api_key();
         $smsrequest["num"] = $this->get_destination_number();
         $smsrequest["sms"] = $this->get_sms();
+		
+		
         try {
             $api_instance->sendSms($smsrequest);
             return 1;
@@ -62,6 +64,8 @@ class Api_sms {
 			
 			//echo 'Exception when calling SmsApi->sendSms: ', $e->getMessage(), PHP_EOL;
 			$reponse_erreur=$e->getResponseBody();
+			
+			var_dump($reponse_erreur);
 			
             return 0;
         }

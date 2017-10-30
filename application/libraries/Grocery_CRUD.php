@@ -2759,6 +2759,11 @@ class grocery_CRUD_States extends grocery_CRUD_Layout {
 
     protected function state_url($url = '', $is_list_page = false) {
         //Easy scenario, we had set the crud_url_path
+		
+		
+	//$is_list_page = true;
+		
+		
         if (!empty($this->crud_url_path)) {
             $state_url = !empty($this->list_url_path) && $is_list_page ?
                     $this->list_url_path :
@@ -2786,8 +2791,10 @@ class grocery_CRUD_States extends grocery_CRUD_Layout {
             }
 
             $state_url = site_url(implode('/', $state_url_array) . '/' . $url);
+			
+			
         }
-
+		
         return $state_url;
     }
 
@@ -2856,6 +2863,7 @@ class grocery_CRUD_States extends grocery_CRUD_Layout {
     }
 
     protected function getAjaxListInfoUrl() {
+		
         return $this->state_url('ajax_list_info');
     }
 
@@ -2883,6 +2891,9 @@ class grocery_CRUD_States extends grocery_CRUD_Layout {
             return $this->state_url('edit');
         else
             return $this->state_url('edit/' . $primary_key);
+		
+		
+		
     }
 
     protected function getReadUrl($primary_key = null) {
@@ -2890,6 +2901,8 @@ class grocery_CRUD_States extends grocery_CRUD_Layout {
             return $this->state_url('read');
         else
             return $this->state_url('read/' . $primary_key);
+		
+	
     }
 
     protected function getUpdateUrl($state_info) {

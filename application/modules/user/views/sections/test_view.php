@@ -1,1 +1,1 @@
-<?php echo "bonofjdf "; ?>
+<?php echo $output; ?>
