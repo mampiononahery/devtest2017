@@ -132,6 +132,16 @@
 
             }
         };
+		
+		
+		scheduler.attachEvent("onExternalDragIn", function(id, source, event){
+			
+			alert("drag and drop");
+		});
+		
+		
+		
+		
         scheduler.attachEvent("onLightbox", function (event_id) {
             var _table = "<table>";
             _table += "<thead><tr>";
@@ -410,6 +420,29 @@
         });
 
         /* EVENT ACTIONS */
+		
+		
+		var dragged_event;
+		scheduler.attachEvent("onBeforeDrag", function (id, mode, e){
+			dragged_event=scheduler.getEvent(id); //use it to get the object of the dragged event
+			return true;
+		});
+ 
+		scheduler.attachEvent("onDragEnd", function(){
+			var event_obj = dragged_event;
+			//your custom logic
+			
+			console.log(event_obj);
+			return true;
+		});
+		
+		
+		
+		
+		
+		
+		
+		
         scheduler.attachEvent("onEventSave", function (id, ev, is_new_event) {
             var inputLength = $(".prod_prix_ttc").length;
 
@@ -553,7 +586,7 @@
         };
 
         scheduler.templates.tooltip_text = function (start, end, event) {
-            return "<b>Commentaire:</b> " + event.text + "<br/><b>Production:</b>"+event.production+"<br/><b>Heure de début:</b> " +
+            return "<b>Commentaire:</b> " + event.text + "<br/><b>Procution:</b>"+event.production+"<br/><b>Heure de début:</b> " +
                     format(start) + "<br/><b>Heure de fin:</b> " + format(end);
         };
 

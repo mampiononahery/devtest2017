@@ -58,6 +58,8 @@ class Ajax extends Back {
 
         foreach ($rdv as $kRdv => $vRdv) {
             //$item = array();
+			
+			var_dump($vRdv); exit();
             $data[$kRdv]["id"] = $vRdv->rdv_id;
             $data[$kRdv]["start_date"] = $vRdv->dt_start;
             $data[$kRdv]["end_date"] = $vRdv->dt_end;
@@ -143,7 +145,7 @@ class Ajax extends Back {
         $data['contact'] = $this->input->post('sms_contact');
         $data['text'] = $this->input->post('sms_text');
         $data['state'] = 0;
-
+		
         /** SMS LOGS */
         if (!empty($data['contact']) && !empty($data['text'])) {
             $api_sms = new Api_sms();
