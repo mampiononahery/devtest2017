@@ -63,13 +63,14 @@ if ( ! function_exists('lang'))
 	 */
 	function lang($line, $for = '', $attributes = array())
 	{
+		$temp = $line;
 		$line = get_instance()->lang->line($line);
-
+		
 		if ($for !== '')
 		{
 			$line = '<label for="'.$for.'"'._stringify_attributes($attributes).'>'.$line.'</label>';
 		}
-
+		$line = $line ? $line : $temp;
 		return $line;
 	}
 }

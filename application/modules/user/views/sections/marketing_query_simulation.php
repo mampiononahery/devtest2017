@@ -29,11 +29,27 @@
                                 ?>
                                 <?php foreach ($keys AS $key): ?>
                                     <th>
-                                        <div class="text-left"><?php echo $key ?></div>
+                                        <div class="text-left"><?php echo lang($key) ?></div>
                                     </th>
                                 <?php endforeach; ?>
                                 <?php break; ?>    
                             </tr>
+                        <?php endforeach; ?>
+						
+						<?php foreach ($result AS $entity): ?>
+						<tr>
+							<?php
+                                $item = get_object_vars($entity);
+                                $keys = array_keys($item);
+                                ?>
+							<?php foreach ($keys AS $key): ?>
+                            <th class="action_toogle">
+								<input type="text" name="<?php echo $key; ?>" placeholder="<?php echo "rechercher"; ?>" class="get_action_toogle_search seach_flexigrid search_<?php echo $key; ?>"/>
+								<i class="action_toogle_search fa fa-search" aria-hidden="true" style="color: blue;" onClick="action_toogle_search()"></i>
+							</th>
+							<?php endforeach; ?>
+                                <?php break; ?>  
+						</tr>
                         <?php endforeach; ?>
                     </thead>
                     <tbody>
@@ -56,3 +72,33 @@
         </div>
     </div>
 </div>
+<script>
+$('.ajax_list').on('click','.action_toogle_search',function(){
+	
+		var is_show = $(this).parent('.action_toogle').find('.get_action_toogle_search').css('display');
+		var name_val = $("#namesearchval").val();
+		if(name_val!=='')
+		{
+		
+			$("#search_field").val($("#namesearch").val());
+			$("#search_text").val(name_val);
+			$(this).closest('.flexigrid').find('.filtering_form').trigger('submit');
+			
+		}
+		if(is_show == 'none'){
+			$(this).parent('.action_toogle').find('.get_action_toogle_search').show();
+		}else{
+			$(this).parent('.action_toogle').find('.get_action_toogle_search').hide();
+        }
+	});
+
+
+
+</script>
+
+<style>
+.get_action_toogle_search {
+    display: none;
+    width: 80%;
+}
+</style>
