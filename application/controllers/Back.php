@@ -237,8 +237,8 @@ class Back extends MX_Controller {
 	
 		$this->load->model('Rdv_model');
 		$rdv = new Rdv_model();
-	
-		$rdv_prod = $rdv->get_prd_rdv_by_rdv_id($row->rdv_id);
+
+		$rdv_prod = $rdv->get_prd_rdv_by_rdv_id($row->id_rdv);
 		$libelle_prod = !empty($rdv_prod[0]->prod_libelle) ? $rdv_prod[0]->prod_libelle : ' - ';
 		return $libelle_prod;
 	
@@ -250,7 +250,7 @@ class Back extends MX_Controller {
 		$this->load->model('Rdv_model');
 		$rdv = new Rdv_model();
 	
-		$rdv_prod = $rdv->get_prd_rdv_by_rdv_id($row->rdv_id);
+		$rdv_prod = $rdv->get_prd_rdv_by_rdv_id($row->id_rdv);
 		$libelle_prod = !empty($rdv_prod[0]->prod_type) ? $rdv_prod[0]->prod_type : ' - ';
 		return $libelle_prod;
 	
@@ -262,7 +262,7 @@ class Back extends MX_Controller {
 		$this->load->model('Rdv_model');
 		$rdv = new Rdv_model();
 	
-		$rdv_prod = $rdv->get_prd_rdv_by_rdv_id($row->rdv_id);
+		$rdv_prod = $rdv->get_prd_rdv_by_rdv_id($row->id_rdv);
 		$libelle_prod = !empty($rdv_prod[0]->prod_pu) ? $rdv_prod[0]->prod_pu ." &euro;": '0';
 		return $libelle_prod;
 	
@@ -275,7 +275,7 @@ class Back extends MX_Controller {
 		$this->load->model('Rdv_model');
 		$rdv = new Rdv_model();
 	
-		$rdv_prod = $rdv->get_prd_rdv_by_rdv_id($row->rdv_id);
+		$rdv_prod = $rdv->get_prd_rdv_by_rdv_id($row->id_rdv);
 		$libelle_prod = !empty($rdv_prod[0]->qte) ? $rdv_prod[0]->qte : ' ';
 		return $libelle_prod;
 	
@@ -287,7 +287,7 @@ class Back extends MX_Controller {
 		$this->load->model('Rdv_model');
 		$rdv = new Rdv_model();
 	
-		$rdv_prod = $rdv->get_prd_rdv_by_rdv_id($row->rdv_id);
+		$rdv_prod = $rdv->get_prd_rdv_by_rdv_id($row->id_rdv);
 		$libelle_prod = !empty($rdv_prod[0]->prod_remise) ? $rdv_prod[0]->prod_remise ." %" : ' 0 %';
 		return $libelle_prod;
 	
@@ -299,7 +299,7 @@ class Back extends MX_Controller {
 	
 		$this->load->model('Rdv_model');
 		$rdv = new Rdv_model();
-		$rdv_prod = $rdv->get_prd_rdv_by_rdv_id($row->rdv_id);
+		$rdv_prod = $rdv->get_prd_rdv_by_rdv_id($row->id_rdv);
 		$total = 0;
 		if(!empty($rdv_prod[0])){
 		
@@ -319,7 +319,7 @@ class Back extends MX_Controller {
 	
 		$this->load->model('Rdv_model');
 		$rdv = new Rdv_model();
-		$rdv_prod = $rdv->get_prd_rdv_by_rdv_id($row->rdv_id);
+		$rdv_prod = $rdv->get_prd_rdv_by_rdv_id($row->id_rdv);
 		$date_start = "";
 		if(!empty($rdv_prod[0]->date_start_rendevous)){
 			$date_start = $rdv_prod[0]->date_start_rendevous;

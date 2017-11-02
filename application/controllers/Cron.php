@@ -148,6 +148,9 @@ class Cron extends Front {
         foreach ($data AS $uid => $array) {
             $i = 1;
             $user = $user_model->get_user_by_uid($uid);
+			
+			
+			
             $this->email->from('contact@maged.lu', 'Gestionnaire d\'alerte PowerCRM');
             $this->email->to('' . $uid . ' <' . $user->email_adress . '>');
             $this->email->subject('Alerte email PowerCRM'); // pour l\'utilisateur ' . $uid);
@@ -157,7 +160,14 @@ class Cron extends Front {
                 $i++;
             }
             $message .= '</ul>';
-            echo $message;
+			
+			
+			
+			$url = $this->config->item("base_url");
+			
+			$url .="user/alerte";
+			$message .="<a href='".$url."'>Lien vers l'alerte </a>";
+			$message .= "<p>ou copier ce lient ".$url." </p>";
             $this->email->message($message);
             $this->email->send();
         }

@@ -7,17 +7,24 @@
         <div class="dhx_cal_prev_button">&nbsp;</div>
         <div class="dhx_cal_next_button">&nbsp;</div>
         <div class="dhx_cal_today_button"></div>
-
+		
         <div class="calendar_filter">
-            <select>
-                <option>Salle 1</option>
-                <option>Salle 2</option>
-                <option>Salle 3</option>
-                <option>Salle 4</option>
-                <option>Salle 5</option>
-            </select>
+		
+		
+		<select id="select_resource">
+			<option value="0">Tous</option>
+			<?php if($resources) { 
+			
+			foreach($resources as $res) {
+				?>
+					<option value="<?php echo $res->resource_id; ?>" ><?php echo $res->name; ?></option>
+				<?php 
+				}
+			
+			} ?>
+		
+		  </select>
         </div>
-
         <div class="dhx_cal_date"></div>
         <div class="dhx_cal_tab" name="day_tab" style="right:204px;"></div>
         <div class="dhx_cal_tab" name="week_tab" style="right:140px;"></div>
@@ -29,9 +36,20 @@
 
 <script type="text/javascript" charset="utf-8">
     $(document).ready(function () {
-        init();
+		var resource_val = 0; 
+        init(resource_val);
     });
-    function init() {
+	
+	
+	$("#select_resource").on("change",function(){
+			
+			scheduler.clearAll();
+			init($(this).val());
+			return true;
+	});
+	
+	
+    function init(id_ressource) {
         var step = 15;
         var format = scheduler.date.date_to_str("%H:%i");
 
@@ -132,16 +150,6 @@
 
             }
         };
-		
-		
-		scheduler.attachEvent("onExternalDragIn", function(id, source, event){
-			
-			alert("drag and drop");
-		});
-		
-		
-		
-		
         scheduler.attachEvent("onLightbox", function (event_id) {
             var _table = "<table>";
             _table += "<thead><tr>";
@@ -414,37 +422,22 @@
         var dragged_ev = null;
         scheduler.attachEvent("onBeforeDrag", function (ev, mode) {
             if (mode === 'move') {
+				console.log("ggg");
                 dragged_ev = scheduler.getEvent(ev);
+				dragged_event = scheduler.getEvent(ev);
             }
+			console.log("ggg");
             return true;
         });
 
         /* EVENT ACTIONS */
-		
-		
-		var dragged_event;
-		scheduler.attachEvent("onBeforeDrag", function (id, mode, e){
-			dragged_event=scheduler.getEvent(id); //use it to get the object of the dragged event
-			return true;
-		});
- 
-		scheduler.attachEvent("onDragEnd", function(){
-			var event_obj = dragged_event;
-			//your custom logic
-			
-			console.log(event_obj);
-			return true;
-		});
-		
-		
-		
-		
-		
-		
-		
-		
         scheduler.attachEvent("onEventSave", function (id, ev, is_new_event) {
-            var inputLength = $(".prod_prix_ttc").length;
+			console.log(ev);
+			console.log(is_new_event);
+
+
+
+		   var inputLength = $(".prod_prix_ttc").length;
 
             $(".id_produit").each(function () {
                 scheduler.setUserData(id, $(this).attr('id'), $(this).val());
@@ -468,11 +461,7 @@
 
             var custom_ev = scheduler.getEvent(scheduler.getState().lightbox_id);
 
-            console.log("Begin - Before saving");
-            console.log(ev);
-            console.log("====================");
-            console.log(custom_ev);
-            console.log("End - Before saving");
+           
 
             custom_ev.text = ev.text;
             custom_ev.id_client = ev.id_client;
@@ -499,9 +488,7 @@
                 dataType: "json",
                 data: {'data': JSON.stringify(custom_ev)},
                 success: function (data) {
-                    console.log("Begin - onEventSave");
-                    console.log(data);
-                    console.log("End - onDragEnd");
+                    
                 },
                 error: function () {
                     alert("error during process...");
@@ -510,9 +497,34 @@
 
             return true;
         });
-
+		scheduler.attachEvent("onDragEnd", function(event,mod){
+			//var event_obj = dragged_event;
+			/**
+			* AJAX TO SEND VERS  apres ON DRAG EVENT
+			*/
+			
+			/*console.log(mod);
+			console.log(event);*/
+			if(mod=="move"){
+				$.ajax({
+					url: "<?php echo site_url('user/ajax/save_event') ?>",
+					type: "POST",
+					dataType: "json",
+					data: {'data': JSON.stringify(dragged_event)},
+					success: function (data) {
+						
+					},
+					error: function () {
+						alert("error during process...");
+					}
+				});
+			}
+			//save_event(event_obj);
+			return true;
+		});
+	
         scheduler.attachEvent("onEventDeleted", function (id) {
-            console.log("DATA DELETING PROCESS...");
+           
 
             $.ajax({
                 url: "<?php echo site_url('user/ajax/delete_event') ?>",
@@ -520,7 +532,7 @@
                 dataType: "json",
                 data: {event_id: id},
                 success: function (data) {
-                    console.log(data);
+                    
                 },
                 error: function () {
                     alert("error during process...");
@@ -566,16 +578,23 @@
                         if (data.message_error) {
                             html += '<img class="sms_not_sent" src="<?php echo site_url('assets/backend/design/message_error.png') ?>" title="SMS non envoyé" alt="SMS non envoyé"/>';
                         }
+						else{
+						
+							  html += '<img class="sms_not_sent" src="<?php echo site_url('assets/backend/design/message_error.png') ?>" title="SMS non envoyé" alt="SMS non envoyé"/>';
+						}
                     },
                     error: function () {
                         alert("error during process...");
                     }
                 });
             }
+
             if (ev.clt === "1") {
                 html += '<img class="rdv_not_honored" src="<?php echo site_url('assets/backend/design/not_honored.png') ?>" title="Client absent au RDV" alt="Client absent au RDV"/>';
             }
-            html += "<span class='alert_calendar'><i class='fa fa-exclamation-triangle' aria-hidden='true'></i></span>";
+			html += '<img class="rdv_not_honored" src="<?php echo site_url('assets/backend/design/message.png') ?>" title="Client absent au RDV" alt="Client absent au RDV"/>';
+			
+			
             html += "</div>";
 
             // resize section
@@ -586,13 +605,19 @@
         };
 
         scheduler.templates.tooltip_text = function (start, end, event) {
-            return "<b>Commentaire:</b> " + event.text + "<br/><b>Procution:</b>"+event.production+"<br/><b>Heure de début:</b> " +
+             
+            return "<b>Commentaire:</b> " + event.text + "<br/><b>Production:</b>"+event.production+"<br/><b>Heure de début:</b> " +
                     format(start) + "<br/><b>Heure de fin:</b> " + format(end);
+        
         };
 
         <?php $date_focus = date('Y') . ',' . (date('m') > 0 ? date('m') - 1 : date('m')) . ',' . date('d'); ?>
         scheduler.init('scheduler_here', new Date(<?php echo $date_focus ?>), "week");
-        scheduler.load("<?php echo site_url('user/ajax/generateJsonResponse') ?>", "json");
+        //scheduler.load("<?php echo site_url('user/ajax/generateJsonResponse') ?>", "json");
+		
+		
+		 scheduler.load("<?php echo site_url('user/ajax/generateJsonResponse') ?>?id_ressource="+id_ressource, "json");
+		
         window.alert = function () {
             scheduler.clearAll();
             scheduler.load("<?php echo site_url('user/ajax/generateJsonResponse') ?>", "json");

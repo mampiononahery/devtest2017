@@ -34,12 +34,24 @@ class Rdv_model extends CI_Model {
         return $db->result();
     }
 
-    public function get_all_rdv_by_uid($uid) {
+    public function get_all_rdv_by_uid($uid,$id_ressource=0) {
         $this->db->select("*")
                 ->from('rdv')
                 ->join('client', 'rdv.id_client = client.client_id')
                 ->where('rdv.user', $uid);
+				
+		if($id_ressource>0){
+		
+			$this->db->where("rdv.id_ressource",$id_ressource);
+		
+		
+		}
+				
+			
         $db = $this->db->get();
+		
+		
+	
         return $db->result();
     }
 

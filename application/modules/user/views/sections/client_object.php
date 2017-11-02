@@ -9,6 +9,23 @@
 <script type="text/javascript">
 	$(document).ready(function(){
 		
+
+
+
+		$('.change_select').on("change",function(){
+		
+			if($(this).val() == '0' ||  $(this).val() ==0){
+				$("#autre_id").show();
+			
+			}
+			else{
+			
+				$("#autre_id").hide();
+			}
+		
+		});
+
+
 	});
 
 </script>

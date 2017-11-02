@@ -65,7 +65,6 @@ class Api_sms {
 			//echo 'Exception when calling SmsApi->sendSms: ', $e->getMessage(), PHP_EOL;
 			$reponse_erreur=$e->getResponseBody();
 			
-			var_dump($reponse_erreur);
 			
             return 0;
         }

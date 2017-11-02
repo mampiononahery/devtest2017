@@ -19,6 +19,26 @@ class Alerte_model extends CI_Model {
                 ->from('alerte')
                 ->join('client', 'alerte.client_id = client.client_id')
                 ->where("alerte.user = '" . $user_id . "' AND acquitted = 0");
+				
+						
+        $db = $this->db->get();
+        return $db->result();
+    }
+	
+    public function get_alertes_by_uid_by_type($user_id,$acquitted =0) {
+        $this->db->select("*")
+                ->from('alerte')
+                ->join('client', 'alerte.client_id = client.client_id')
+                ->where("alerte.user = '" . $user_id . "' ");
+				
+				
+		if($acquitted>0)
+		{
+			$this->db->where("acquitted",$acquitted);
+			
+		
+		}
+				
         $db = $this->db->get();
         return $db->result();
     }

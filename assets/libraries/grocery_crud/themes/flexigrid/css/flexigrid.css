@@ -1469,11 +1469,12 @@ input[type="submit"].btn.btn-mini {
 }
 i.action_toogle_search {
     cursor: pointer;
-    font-size: 18px;
+    font-size: 12px;
     display: inline-block;
     float: right;
     margin-right: 4px;
     margin-top: 4px;
+    line-height: 27px;
 }
 input[type=text], select, textarea {
     padding: 5px !important;

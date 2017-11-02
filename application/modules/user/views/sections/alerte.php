@@ -1,3 +1,20 @@
+
+<script type="text/javascript">
+    $(document).ready(function ($) {
+        $('.switch-input').on("change",function () {
+			
+            if ($(this).val() == 1 || $(this).val() == "1") {
+                window.location = "<?php echo site_url('user/alerte/') ?>";
+            } else {
+                window.location = "<?php echo site_url('user/alerte/alerte_tous') ?>";
+            }
+			
+        });
+    });
+</script>
+
+
+
 <?php if (isset($client)) : ?>
     <ol class="breadcrumb">
         <li class="breadcrumb-item"><a href="<?php echo site_url('user/dashboard') ?>">Dashboard</a></li>
@@ -25,17 +42,34 @@
         <li class="breadcrumb-item active">Alertes</li>
     </ol>
     <ul class="option_alert">
-        <li>N'afficher que les alerts è traiter</li>
+        <li>N'afficher que les alerts à  traiter</li>
         <li>
+		
+		
+			<?php if (isset($state) && $state == 'list') {
+			
+					$switch_on = 0;
+					$switch_off = 1;
+					if (isset($latest_alert)) {
+						if ($latest_alert) {
+							$switch_on = 1;
+							$switch_off = 0;
+						}
+					}
+				} 
+				?>
+		
+		
             <div class="switch">
-                <input class="switch-input" id="is_true" type="radio" value="1"/>
+                <input class="switch-input" id="is_true" type="radio" value="1" <?php echo isset($switch_on) && $switch_on ? ' checked="checked"' : '' ?>/>
                 <label for="is_true" class="switch-label switch-label-off">oui</label>
-                <input class="switch-input" id="is_false" type="radio" value="0"/>
+                <input class="switch-input" id="is_false" type="radio" value="0" <?php echo isset($switch_off) && $switch_off ? ' checked="checked"' : '' ?>/>
                 <label for="is_false" class="switch-label switch-label-on">non</label>
                 <span class="switch-selection"></span>
             </div>
         </li>
     </ul>
+	
     
 <?php endif; ?>
 <?php echo isset($output) ? $output : ''; ?>

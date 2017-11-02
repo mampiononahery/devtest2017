@@ -26,7 +26,7 @@
         <div class="widget widget-stats bg-purple">
             <div class="stats-icon stats-icon-lg"><i class="fa fa-calendar fa-fw"></i></div>
             <div class="stats-title">Agenda</div>
-            <div class="stats-desc"><a href="<?php echo site_url('user/agenda/') ?>">Acc&eacute;der &agrave; mon agenda</a></div>
+            <div class="stats-desc"><a href="<?php echo site_url('user/calendar/') ?>">Acc&eacute;der &agrave; mon agenda</a></div>
         </div>
     </div>
     <!-- end col-3 -->

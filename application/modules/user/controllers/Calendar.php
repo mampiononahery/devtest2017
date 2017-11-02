@@ -23,6 +23,9 @@ class Calendar extends Back {
         $this->load->model('Resource_model');
         $resource_model = new Resource_model();
         $output->resources = $resource_model->get_resources_by_uid($this->oc_auth->get_user_id());
+		
+		
+
 
         $this->load->model('Sms_model');
         $sms_model = new Sms_model();

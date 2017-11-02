@@ -39,7 +39,11 @@ class Oc_auth {
 
         if (!is_null($user = $user_model->get_user_by_uid($login))) { // login ok
 			
-            if ($this->authenticate($password, $user->password)) {  // password ok
+            
+			
+			
+			
+			if ($this->authenticate($password, $user->password)) {  // password ok
                
 				$this->ci->session->set_userdata(array(
                     'uid' => $user->uid,

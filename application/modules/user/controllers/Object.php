@@ -35,7 +35,7 @@ class Object extends Back {
             $user_model = new User_model();
             $logged_user = $user_model->get_user_by_uid($this->oc_auth->get_user_id());
             if (!$logged_user->use_excel) {
-                $crud->unset_export();
+                //$crud->unset_export();
             }
             $output = $crud->render();
         }
@@ -56,7 +56,7 @@ class Object extends Back {
 
         $layout = new Layout();
         $layout->set_title("Chiens");
-        $layout->view("sections/client_object", $output, 'modal_page');
+        $layout->view("sections/client_object", $output, 'iframe_page');
     }
 
     function callbak_entity_title($value, $row) {
@@ -88,7 +88,7 @@ class Object extends Back {
                 $dynamic_fields = json_decode($object->dynamic_fields, true);
             }
         }
-
+		
         foreach ($object_fields AS $item) {
             $row_style = ($counter % 2 == 0) ? ' odd' : ' even';
             if (!empty($item->label)) {
@@ -118,10 +118,12 @@ class Object extends Back {
                     $input .= '<div class="clear"></div>';
                 } elseif ($item->field_type == 'dropdown') {
                     $input .= '<div>';
-                    $input .= '   <label for="field_' . $item->field_id . '">' . $item->label . '</label><select name="field_' . $item->field_id . '" id="field_' . $item->field_id . '">';
+                    $input .= '   <label for="field_' . $item->field_id . '">' . $item->label . '</label><select class="change_select name="field_' . $item->field_id . '" id="field_' . $item->field_id . '">';
                     $field_options = $client_model->get_client_object_field_options($item->field_id);
                     $dropdown = array();
                     $input .= '       <option value="">-- choisir --</option>';
+					
+					$input .= '       <option value="0">Autre </option>';
                     foreach ($field_options AS $option) {
                         if (isset($dynamic_fields[$item->field_id]) && $dynamic_fields[$item->field_id] == $option->option_id) {
                             $selected = ' selected="selected"';
@@ -133,6 +135,12 @@ class Object extends Back {
                     }
                     $input .= '    </select>';
                     $input .= '</div>';
+					
+					
+					$input .= '<div id="autre_id" style="display:none;"><label for="autre">Autres</label><input type="text" class="form-control"></div>';
+				
+					
+					
                 } elseif ($item->field_type == 'long') {
                     if ((isset($dynamic_fields[$item->field_id]))) {
                         $value = $dynamic_fields[$item->field_id];
@@ -146,8 +154,22 @@ class Object extends Back {
                     } else {
                         $value = '';
                     }
+					
+					
+					
+					
+					
+					
+					
+					
+					
+					
                     $input .= '<div><label for="field_' . $item->field_id . '">' . $item->label . '</label><input ' . ($item->field_type == 'date' ? ' class="picker" placeholder="YYYY-MM-DD" ' : '') . 'id="field_' . $item->field_id . '" name="field_' . $item->field_id . '" type="text" value="' . $value . '"/></div>';
                 }
+				
+				
+				
+				
                 $input .= '</div>';
             }
             $counter++;

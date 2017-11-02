@@ -53,24 +53,37 @@ class Ajax extends Back {
         header("Content-Type:application/json; charset=UTF-8");
         $this->load->model('Rdv_model');
         $rdv_model = new Rdv_model();
+		
+		
+		$id_ressource = $this->input->get("id_ressource");
         $data = array();
-        $rdv = $rdv_model->get_all_rdv_by_uid($this->oc_auth->get_user_id());
+        $rdv = $rdv_model->get_all_rdv_by_uid($this->oc_auth->get_user_id(),$id_ressource);
 
         foreach ($rdv as $kRdv => $vRdv) {
             //$item = array();
 			
-			var_dump($vRdv); exit();
+		
             $data[$kRdv]["id"] = $vRdv->rdv_id;
             $data[$kRdv]["start_date"] = $vRdv->dt_start;
             $data[$kRdv]["end_date"] = $vRdv->dt_end;
             $data[$kRdv]["text"] = $vRdv->note_prd;
             $data[$kRdv]["details"] = $vRdv->note_prd;
-            $data[$kRdv]["production"] = "";
+            
             $data[$kRdv]["sms"] = $vRdv->sms;
             $data[$kRdv]["clt"] = $vRdv->clt_non_pointe;
             $data[$kRdv]["id_ressource"] = $vRdv->id_ressource;
             $data[$kRdv]["id_client"] = $vRdv->id_client;
             $data[$kRdv]["nom_client"] = $vRdv->nom_client;
+			$prd_rdv = $rdv_model->get_prd_rdv_by_rdv_id($vRdv->rdv_id);
+			$produt_libelle =" ";
+			if ($prd_rdv) {
+                foreach ($prd_rdv as $kPrd => $vPrd) {
+                    
+					$produt_libelle .= $vPrd->prod_label;
+                }
+            }
+			 $data[$kRdv]["production"] = $produt_libelle;
+			
         }
         echo json_encode($data);
     }
@@ -85,6 +98,8 @@ class Ajax extends Back {
         $rdv_model = new Rdv_model();
         $id = (int) $this->input->post('event_id');
         $rdv = $rdv_model->get_rdv_by_id($id);
+		
+	
 
         if (!empty($rdv)) {
             $data["id"] = (int) $rdv->rdv_id;
@@ -99,21 +114,26 @@ class Ajax extends Back {
             $data["clt"] = $rdv->clt_non_pointe;
 
             $prd_rdv = $rdv_model->get_prd_rdv_by_rdv_id($rdv->rdv_id);
+			
+			
+			$produt_libelle = "";
             if ($prd_rdv) {
                 foreach ($prd_rdv as $kPrd => $vPrd) {
                     $item = array('id_prd' => $vPrd->id_prd, 'pu' => $vPrd->prod_pu, 'libelle' => $vPrd->
                         prod_label, 'qte' => $vPrd->qte, 'remise' => $vPrd->prod_remise, 'p_ttc' => $vPrd->
                         prod_prix_ttc);
                     $produit[] = $item;
+					$produt_libelle .= $vPrd->prod_label;
                 }
             }
             $data["produit"] = $produit;
+			$data["produit_libelle"] =$produt_libelle;
         }
 
         $user_model = new User_model();
         $logged_user = $user_model->get_user_by_uid($this->oc_auth->get_user_id());
         $data['is_sms'] = (int) $logged_user->is_sms;
-
+	
         echo json_encode(array('data' => $data));
     }
 
@@ -152,7 +172,7 @@ class Ajax extends Back {
             $api_sms->set_destination_number($data['contact']);
             $api_sms->set_sms($data['text']);
             $data['state'] = $api_sms->send_sms();
-
+			
             if ($data['state']) {
                 $this->load->model('Sms_model');
                 $message_log = array(
@@ -196,7 +216,7 @@ class Ajax extends Back {
             'user' => $this->oc_auth->get_user_id(),
             'note_prd' => $post_data->text,
             'id_client' => $post_data->id_client,
-            'id_ressource' => $post_data->id_ressource,
+            'id_ressource' =>isset($post_data->id_ressource) ?  $post_data->id_ressource : 1,
             'nom_client' => $post_data->nom_client,
             'dt_start' => $post_data->start_date,
             'dt_end' => $post_data->end_date,
@@ -207,7 +227,7 @@ class Ajax extends Back {
         if (isset($post_data->is_new) && $post_data->is_new) { // NEW ENTRY
             /* SAVE RDV */
             $latest_id = $rdv_model->save_rdv($data_rdv); // GET NEW RDV ID
-            $nb_prd = $post_data->inputLength;
+            $nb_prd = isset($post_data->inputLength)? $post_data->inputLength : 0;
             for ($i = 1; $i <= $nb_prd; $i++) {
                 $id_prd = 'id_produit' . $i;
                 $prod_label = 'prodlibelle_' . $i;
@@ -232,8 +252,12 @@ class Ajax extends Back {
 
             /* REMOVE ALL RELATIONS */
             $rdv_model->delete_prd_rdv($rdv_id);
-
-            $nb_prd = $post_data->inputLength;
+			$nb_prd = 0;
+			
+			if(!empty($post_data->inputLength))
+			{
+				$nb_prd = $post_data->inputLength;
+			}
             for ($i = 1; $i <= $nb_prd; $i++) {
                 $id_prd = 'id_produit' . $i;
                 $prod_label = 'prodlibelle_' . $i;
