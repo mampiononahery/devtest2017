@@ -147,11 +147,11 @@ ul.option_alert {
     }
 }
 .btn {
-    background-color: #2bbbad !important;
+    background-color: #65bd63 !important;
     color: #ffffff !important;
     border: none !important;
 }
 .btn:hover, .btn:hover, .btn:hover {
     box-shadow: 0 5px 11px 0 rgba(0,0,0,0.18),0 4px 15px 0 rgba(0,0,0,0.15) !important;
-    background-color: #2bbbad !important;
+    background-color: #65bd63 !important;
 }
