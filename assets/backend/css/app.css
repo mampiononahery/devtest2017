@@ -136,7 +136,7 @@ ul.option_alert {
         padding-right: 5px;
     }
 }
-@media (max-width: 768px) and (min-width: 1080px) { 
+@media (max-width: 1080px) and (min-width: 768px) { 
     .widget_maged {
         width: 49.5%;
     }
