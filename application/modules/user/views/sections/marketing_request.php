@@ -34,6 +34,7 @@
                     setTimeout(function () {
                         $('#ajax-loader').hide();
                         $('#search-results').html($html);
+                        $('.get_action_toogle_search').hide();
                     }, 2000);
                 },
                 error: function () {
@@ -211,9 +212,9 @@
             <div class="clear"></div>
             <div class="col-sm-12">
                 <ul class="form-bottom">
-                    <li><span id="add-row"><i class="fa fa-plus-square">&nbsp;</i>Ajouter une condition</span></li>
-                    <li><span id="drop-row"><i class="fa fa-minus-square">&nbsp;</i>Retirer la derni&egrave;re condition</span></li>
-                    <li><span id="search-row"><i class="fa fa-search">&nbsp;</i>Tester la requ&ecirc;te</span></li>
+                    <li><span class="btn btn-large" id="add-row"><i class="fa fa-plus-square">&nbsp;</i>Ajouter une condition</span></li>
+                    <li><span class="btn btn-large" id="drop-row"><i class="fa fa-minus-square">&nbsp;</i>Retirer la derni&egrave;re condition</span></li>
+                    <li><span class="btn btn-large" id="search-row"><i class="fa fa-search">&nbsp;</i>Tester la requ&ecirc;te</span></li>
                 </ul>
             </div>
             <div class="clear"></div>
@@ -228,3 +229,15 @@
     </div>
     <div class="clear"></div>
 </div>
+<style type="text/css">
+    .btn {
+        background: #65bd63 !important;
+        background-color: #65bd63 !important;
+        color: #ffffff !important;
+        border: none !important;
+    }
+    .btn:hover, .btn:hover, .btn:hover {
+        box-shadow: 0 5px 11px 0 rgba(0,0,0,0.18),0 4px 15px 0 rgba(0,0,0,0.15) !important;
+        background-color: #65bd63 !important;
+    }
+</style>
